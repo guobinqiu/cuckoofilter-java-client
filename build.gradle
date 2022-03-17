@@ -5,7 +5,11 @@ plugins {
 
 protobuf {
   protoc {
-    artifact = "com.google.protobuf:protoc:3.19.2:osx-x86_64"
+    if (osdetector.os == "osx") {
+      artifact = 'com.google.protobuf:protoc:3.19.2:osx-x86_64'
+    } else {
+      artifact = 'com.google.protobuf:protoc:3.19.2'
+    }
   }
   plugins {
     grpc {
