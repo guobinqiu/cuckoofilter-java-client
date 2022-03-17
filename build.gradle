@@ -61,8 +61,3 @@ application {
     // Define the main class for the application.
     mainClass = 'cuckoofilter.CuckooFilterClient'
 }
-
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
-}
