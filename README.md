@@ -18,11 +18,11 @@ To run the client, you should have the [cuckoofilter server](https://github.com/
 - Gradle Language Support
 - vscode-proto3
 
-### Update your own `build.gradle`
+### Update your own [build.gradle](build.gradle)
 
-For operation system other than Mac, you should remove the trailing `:osx-x86_64`.
+- For operation system other than Mac, you should remove the trailing `:osx-x86_64`.
 
-For `io.grpc:protoc-gen-grpc-java:1.43.0`, just for my osx is `10.13`, you'd better use the latest version instead.
+- For `io.grpc:protoc-gen-grpc-java:1.43.0`, just for my osx is `10.13`, you'd better use the latest version instead.
 
 ```
 protobuf {
