@@ -19,7 +19,8 @@ public class CuckooFilterClient {
 
     public static void main(String[] args) {
         logger.info("Start running CuckooFilter client...");
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build();
+        String address = "127.0.0.1"; // change to your own server ip
+        ManagedChannel channel = ManagedChannelBuilder.forAddress(address, 50051).usePlaintext().build();
         try {
             CuckooFilterClient client = new CuckooFilterClient(channel);
             String filterName = "f1";
@@ -82,7 +83,7 @@ public class CuckooFilterClient {
         logger.info(String.format("插入%s成功？%s", element, resp.getStatus().getMsg()));
     }
 
-    public String[] insertElements(String filterName, String[] elements) {
+    public void insertElements(String filterName, String[] elements) {
         InsertElementsRequest req = InsertElementsRequest.newBuilder().setFilterName(filterName)
                 .addAllElements(Arrays.asList(elements))
                 .build();
@@ -91,10 +92,9 @@ public class CuckooFilterClient {
             resp = blockingStub.insertElements(req);
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getMessage());
-            return null;
+            return;
         }
         logger.info(String.format("插入失败的元素：%s", resp.getFailedElementsList()));
-        return resp.getFailedElementsList().toArray(new String[0]);
     }
 
     public void countElements(String filterName) {
@@ -135,7 +135,7 @@ public class CuckooFilterClient {
         logger.info(String.format("删除成功？%s", resp.getStatus().getMsg()));
     }
 
-    public String[] lookupElements(String filterName, String[] elements) {
+    public void lookupElements(String filterName, String[] elements) {
         LookupElementsRequest req = LookupElementsRequest.newBuilder().setFilterName(filterName)
                 .addAllElements(Arrays.asList(elements)).build();
         LookupElementsResponse resp;
@@ -143,10 +143,10 @@ public class CuckooFilterClient {
             resp = blockingStub.lookupElements(req);
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getMessage());
-            return null;
+            return;
         }
-        logger.info(String.format("相交元素: %s", resp.getElementsList()));
-        return resp.getElementsList().toArray(new String[0]);
+        logger.info(String.format("存在的元素: %s", resp.getMatchedElementsList())); // 会误判，判断为存在的，可能不存在
+        logger.info(String.format("不存在的元素: %s", resp.getUnmatchedElementsList())); // 可靠的，判断为不存在的，一定不存在
     }
 
     public void resetFilter(String filterName) {
