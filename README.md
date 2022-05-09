@@ -45,6 +45,6 @@ rpc LookupElement (LookupElementRequest) returns (LookupElementResponse) {}
 #Get both matched and unmatched elements in the specified filter
 rpc LookupElements (LookupElementsRequest) returns (LookupElementsResponse) {}
 
-#Way streaming to find if elements exists in the specified filter
+#Way streaming to find if elements exist in the specified filter
 rpc LookupElementsStream (stream LookupElementsStreamRequest) returns (stream LookupElementsStreamResponse) {}
 ```
